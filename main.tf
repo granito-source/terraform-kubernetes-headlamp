@@ -26,6 +26,12 @@ resource "helm_release" "headlamp" {
             kubernetes.io/ingress.class: ${var.ingress_class}
         EOT
     , var.issuer_name == null ? "" : <<-EOT
+        config:
+          oidc:
+            issuerURL: "${var.oidc_issuer}"
+            clientID: "${var.oidc_client_id}"
+            clientSecret: "${var.oidc_client_secret}"
+            scopes: "${var.oidc_scopes}"
         ingress:
           annotations:
             cert-manager.io/${var.issuer_type}: ${var.issuer_name}

@@ -4,6 +4,12 @@ variable "namespace" {
     description = "namespace to use for the installation"
 }
 
+variable "headlamp_version" {
+    type        = string
+    default     = null
+    description = "override the Headlamp Helm chart version"
+}
+
 variable "host" {
     type        = string
     description = "FQDN for the ingress"
@@ -31,8 +37,26 @@ variable "issuer_type" {
     }
 }
 
-variable "headlamp_version" {
+variable "oidc_issuer" {
     type        = string
-    default     = null
-    description = "override the Headlamp Helm chart version"
+    default     = ""
+    description = "OIDC issuer URL"
+}
+
+variable "oidc_client_id" {
+    type        = string
+    default     = ""
+    description = "OIDC client ID"
+}
+
+variable "oidc_client_secret" {
+    type        = string
+    default     = ""
+    description = "OIDC client secret"
+}
+
+variable "oidc_scopes" {
+    type        = string
+    default     = ""
+    description = "OIDC scopes"
 }
