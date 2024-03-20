@@ -28,7 +28,7 @@ resource "helm_release" "headlamp" {
     , var.issuer_name == null ? "" : <<-EOT
         config:
           oidc:
-            issuerURL: "${var.oidc_issuer}"
+            issuerURL: "${var.oidc_issuer_url}"
             clientID: "${var.oidc_client_id}"
             clientSecret: "${var.oidc_client_secret}"
             scopes: "${var.oidc_scopes}"

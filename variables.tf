@@ -37,7 +37,7 @@ variable "issuer_type" {
     }
 }
 
-variable "oidc_issuer" {
+variable "oidc_issuer_url" {
     type        = string
     default     = ""
     description = "OIDC issuer URL"
