@@ -4,6 +4,10 @@ resource "kubernetes_namespace" "headlamp" {
     }
 }
 
+locals {
+    configure_ingress = var.host != null
+}
+
 resource "helm_release" "headlamp" {
     namespace  = kubernetes_namespace.headlamp.metadata[0].name
     name       = "headlamp"
@@ -11,7 +15,7 @@ resource "helm_release" "headlamp" {
     chart      = "headlamp"
     version    = var.headlamp_version
     values     = [
-        <<-EOT
+        !local.configure_ingress ? "" : <<-EOT1
         ingress:
           enabled: true
           hosts:
@@ -19,13 +23,15 @@ resource "helm_release" "headlamp" {
               paths:
                 - path: /
                   type: Prefix
-        EOT
-    , var.ingress_class == null ? "" : <<-EOT
+        EOT1
+    ,
+        !local.configure_ingress || var.ingress_class == null ? "" : <<-EOT2
         ingress:
           annotations:
             kubernetes.io/ingress.class: ${var.ingress_class}
-        EOT
-    , var.issuer_name == null ? "" : <<-EOT
+        EOT2
+    ,
+        !local.configure_ingress || var.issuer_name == null ? "" : <<-EOT3
         config:
           oidc:
             issuerURL: "${var.oidc_issuer_url}"
@@ -39,6 +45,6 @@ resource "helm_release" "headlamp" {
             - secretName: headlamp-tls
               hosts:
                 - ${var.host}
-        EOT
+        EOT3
     ]
 }

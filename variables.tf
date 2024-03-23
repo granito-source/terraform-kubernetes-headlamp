@@ -12,7 +12,8 @@ variable "headlamp_version" {
 
 variable "host" {
     type        = string
-    description = "FQDN for the ingress"
+    default     = null
+    description = "FQDN for the ingress, must be set to enable ingress"
 }
 
 variable "ingress_class" {
