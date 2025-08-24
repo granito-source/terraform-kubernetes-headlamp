@@ -11,7 +11,7 @@ resource "kubernetes_namespace_v1" "headlamp" {
 resource "helm_release" "headlamp" {
     namespace  = kubernetes_namespace_v1.headlamp.metadata[0].name
     name       = "headlamp"
-    repository = "https://headlamp-k8s.github.io/headlamp"
+    repository = "https://kubernetes-sigs.github.io/headlamp"
     chart      = "headlamp"
     version    = var.headlamp_version
     values     = [
